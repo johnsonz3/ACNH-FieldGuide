@@ -56,7 +56,7 @@ const analytics = getAnalytics(app);
 export default {
   data() {
     return {
-      isOpen : false,
+      isOpen : true,
     }
   },
   name: 'IndexPage'
