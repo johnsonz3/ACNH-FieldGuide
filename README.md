@@ -1,1 +1,0 @@
-# ACNH-FieldGuide
