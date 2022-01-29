@@ -105,7 +105,7 @@ export default {
       for (var bug in this.bugs) {
         bugs.push(this.bugs[bug])
       }
-      return bugs.filter(bugg => bugg.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
+      return bugs.filter(bug => bug.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
  
     }
   },
