@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ACNH-FIELDGUIDE
 
 ## Build Setup
