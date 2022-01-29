@@ -89,7 +89,7 @@
 
 <script>
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyBmhBkE2ZSUW4Km5vFzUD4ZdqxA7Hv5Q-o",
   authDomain: "anch-fieldguide.firebaseapp.com",
@@ -102,7 +102,26 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+import {onValue} from "firebase/database";
+
+const db = getDatabase();
+const insects = ref(db, 'insects');
+onValue(insects, (snapshot) => {
+  const insectData = snapshot.val();
+  console.log(insectData);
+});
+
+//const dbInsects = query(ref(db, 'insects/'))
+// get(child(db, 'insects/')).then((snapshot) => {
+//   if (snapshot.exists()) {
+//     console.log(snapshot.val());
+//   } else {
+//     console.log("No data available");
+//   }
+// }).catch((error) => {
+//   console.error(error);
+// });
+
 export default {
   data() {
     return {
