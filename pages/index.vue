@@ -41,17 +41,19 @@
     <ul>
       <div class="flex flex-wrap justify-around">
       <li v-for="bug in resultQuery" :key="bug">
-              <!--Card 1-->
-              <div class="max-w-md mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] cursor-pointer hover:shadow-xl">
+              <!--Card-->
+              <div class="max-w-md mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] hover:shadow-2xl">
                 <img class="w-full" :src="bug.image_uri" alt="Bug">
                 <div class="px-6 py-4">
-                  <div class="font-bold text-xl mb-2 text-white capitalize underline">{{ bug.name['name-USen'] }}</div>
+                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ bug.name['name-USen'] }}</div>
                   <p class="text-white text-md outline-10">
                     {{ bug['museum-phrase'] }}
                   </p>
                 </div>
                 <div class="px-6 pt-4 pb-2">
-                  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
+                  <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
+                  <span v-if="insectData != []" class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Valid</span>                
+                  <a class="float-right text-white underline hover:text-blue-700" :href="'https://en.wikipedia.org/wiki/' + insectData[bug[`file-name`]]">Click me to Learn more!</a>
                 </div>
               </div>
       </li>
@@ -83,40 +85,32 @@ const firebaseConfig = {
   appId: "1:185938110252:web:b08e7ccbe7da87d82dee89",
   measurementId: "G-Y9BT2JF35X"
 };
-
-const app = initializeApp(firebaseConfig);
 import {onValue} from "firebase/database";
 
-const db = getDatabase();
-const insects = ref(db, 'insects');
-onValue(insects, (snapshot) => {
-  const insectData = snapshot.val();
-  console.log(insectData);
-});
-
-//const dbInsects = query(ref(db, 'insects/'))
-// get(child(db, 'insects/')).then((snapshot) => {
-//   if (snapshot.exists()) {
-//     console.log(snapshot.val());
-//   } else {
-//     console.log("No data available");
-//   }
-// }).catch((error) => {
-//   console.error(error);
-// });
 
 export default {
   data() {
     return {
       isOpen : true,
       bugs : [],
-      searchQuery: ""
+      searchQuery: "",
+      insectData : []
     }
   },
   async fetch() {
     this.bugs = await fetch(
       'http://acnhapi.com/v1/bugs'
     ).then(res => res.json())
+  },
+  methods : {
+    getData: function() {
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase();
+      const insects = ref(db, 'insects');
+      onValue(insects, (snapshot) => {
+      this.insectData = snapshot.val();
+    });
+    }
   },
   computed: {
     resultQuery: function() {
@@ -125,8 +119,10 @@ export default {
         bugs.push(this.bugs[bug])
       }
       return bugs.filter(bug => bug.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
- 
-    }
+    },
+  },
+  beforeMount() {
+    this.getData()
   },
   name: 'IndexPage'
 }
