@@ -38,6 +38,21 @@
 </style>
 
 <script>
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+const firebaseConfig = {
+  apiKey: "AIzaSyBmhBkE2ZSUW4Km5vFzUD4ZdqxA7Hv5Q-o",
+  authDomain: "anch-fieldguide.firebaseapp.com",
+  databaseURL: "https://anch-fieldguide-default-rtdb.firebaseio.com/",
+  projectId: "anch-fieldguide",
+  storageBucket: "anch-fieldguide.appspot.com",
+  messagingSenderId: "185938110252",
+  appId: "1:185938110252:web:b08e7ccbe7da87d82dee89",
+  measurementId: "G-Y9BT2JF35X"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 export default {
   data() {
     return {
