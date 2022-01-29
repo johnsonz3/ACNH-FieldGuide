@@ -23,10 +23,60 @@
           Examples
         </a>
       </div>
-      
     </div>
   </nav>
+  <p v-if="$fetchState.pending">Fetching Animals...</p>
+  <p v-else-if="$fetchState.error">An error occurred :(</p>
+  <div v-else class="container my-12 mx-auto px-4 md:px-12">
+    <ul>
+      <li v-for="bug in bugs" :key="bug">
+        <div class="flex flex-row -mx-1 lg:-mx-4">
+              <!--Card 1-->
+              <div v-if="bug.id % 3 == 2" class="max-w-sm mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] cursor-pointer hover:shadow-xl">
+                <img class="w-full" :src="bug.image_uri" alt="Bug">
+                <div class="px-6 py-4">
+                  <div class="font-bold text-xl mb-2 text-white capitalize underline">{{ bug.name['name-USen'] }}</div>
+                  <p class="text-white text-md outline-10">
+                    {{ bug['museum-phrase'] }}
+                  </p>
+                </div>
+                <div class="px-6 pt-4 pb-2">
+                  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
+                </div>
+              </div>
+               <!--Card 2-->
+              <div v-if="bug.id % 3 == 1" class="max-w-sm mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] cursor-pointer hover:shadow-xl">
+                <img class="w-full" :src="bug.image_uri" alt="Bug">
+                <div class="px-6 py-4">
+                  <div class="font-bold text-xl mb-2 text-white capitalize underline">{{ bug.name['name-USen'] }}</div>
+                  <p class="text-white text-md outline-10">
+                    {{ bug['museum-phrase'] }}
+                  </p>
+                </div>
+                <div class="px-6 pt-4 pb-2">
+                  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
+                </div>
+              </div>
+
+               <!--Card 3-->
+              <div v-if="bug.id % 3 == 0" class="max-w-sm mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] cursor-pointer hover:shadow-xl">
+                <img class="w-full" :src="bug.image_uri" alt="Bug">
+                <div class="px-6 py-4">
+                  <div class="font-bold text-xl mb-2 text-white capitalize underline">{{ bug.name['name-USen'] }}</div>
+                  <p class="text-white text-md outline-10">
+                    {{ bug['museum-phrase'] }}
+                  </p>
+                </div>
+                <div class="px-6 pt-4 pb-2">
+                  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
+                </div>
+              </div>
+          </div>
+      </li>
+    </ul>
   </div>
+      <!-- End Container -->
+    </div>
 </template>
 
 <style lang="scss">
@@ -57,8 +107,17 @@ export default {
   data() {
     return {
       isOpen : true,
+      bugs : [],
     }
   },
+   async fetch() {
+      this.bugs = await fetch(
+        'http://acnhapi.com/v1/bugs'
+      ).then(res => res.json())
+    },
   name: 'IndexPage'
 }
+
+
 </script>
+
