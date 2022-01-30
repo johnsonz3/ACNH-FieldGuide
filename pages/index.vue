@@ -10,16 +10,15 @@
         <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title>
         <path v-if="!isOpen" d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
         <path v-if="isOpen" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-        
         </svg>
       </button>
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-      <div :class="isOpen ? 'block' : 'hidden' " class="text-sm lg:flex-grow">
-        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+      <div :class="isOpen ? 'block' : 'hidden'" class="text-md lg:flex-grow">
+        <a id="bug-link" href="#responsive-header" @click="toggleAnimal=true" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
           Bugs
         </a>
-        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+        <a id="fish-link" href="#responsive-header" @click="toggleAnimal=false" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
           Fish
         </a>
       </div>
@@ -40,20 +39,21 @@
     <!-- End Search Bar -->
     <ul>
       <div class="flex flex-wrap justify-around">
-      <li v-for="(bug, index) in resultQuery" :key="index">
+      <li v-for="(animal, index) in resultQuery" :key="index">
               <!--Card-->
               <div class="max-w-md mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] hover:shadow-2xl">
-                <img class="w-full" :src="bug.image_uri" alt="Bug">
+                <img class="w-full" :src="animal.image_uri" alt="animal">
                 <div class="px-6 py-4">
-                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ bug.name['name-USen'] }}</div>
+                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ animal.name['name-USen'] }}</div>
                   <p class="text-white text-md outline-10">
-                    {{ bug['museum-phrase'] }}
+                    {{ animal['museum-phrase'] }}
                   </p>
                 </div>
                 <div class="px-6 pt-4 pb-2">
-                  <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
+                  <span :style="tag_color_set" class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{tag}}</span>
                   <span v-if="insectData != []" class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Valid</span>                
-                  <a class="float-right text-white underline hover:text-blue-700" :href="'https://en.wikipedia.org/wiki/' + insectData[bug[`file-name`]]">Click me to Learn more!</a>
+                  <a v-if="toggleAnimal" class="float-right text-white underline hover:text-blue-700" :href="'https://en.wikipedia.org/wiki/' + insectData[animal[`file-name`]]">Click me to Learn more!</a>
+                  <a v-if="!toggleAnimal" class="float-right text-white underline hover:text-blue-700" :href="'https://en.wikipedia.org/wiki/' + fishData[animal[`file-name`]]">Click me to Learn more!</a>
                 </div>
               </div>
       </li>
@@ -92,15 +92,36 @@ export default {
   data() {
     return {
       isOpen : true,
+      animal : [],
       bugs : [],
+      fishes: [],
       searchQuery: "",
-      insectData : []
+      insectData : [],
+      fishData : [],
+      toggleAnimal: true,
+      tag: '#bug',
+      tag_color: {type: String, default:"lightyellow"},
+      window: {
+            width: 0,
+            height: 0
+        }
     }
   },
   async fetch() {
     this.bugs = await fetch(
       'http://acnhapi.com/v1/bugs'
-    ).then(res => res.json())
+    ).then(res => res.json());
+
+    this.fishes = await fetch(
+      'http://acnhapi.com/v1/fish'
+    ).then(res => res.json());
+  },
+  created() {
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
+  },
+  destroyed() {
+      window.removeEventListener('resize', this.handleResize);
   },
   methods : {
     getData: function() {
@@ -110,19 +131,48 @@ export default {
       onValue(insects, (snapshot) => {
       this.insectData = snapshot.val();
     });
+      const fish = ref(db, 'fish');
+      onValue(fish, (snapshot) => {
+      this.fishData = snapshot.val();
+    });
+    },
+    handleResize() {
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+
+      if(window.innerWidth >= 1024) {
+        this.isOpen = true;
+      }
     }
-  },
+    },
   computed: {
     resultQuery: function() {
       var bugs = []
-      for (var bug in this.bugs) {
-        bugs.push(this.bugs[bug])
+      var fishes = []
+      if(this.toggleAnimal){
+        this.tag = '#bug'
+        this.tag_color = 'lightyellow'
+        for (var bug in this.bugs) {
+          bugs.push(this.bugs[bug])
+        }
+        return bugs.filter(bug => bug.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
+      }else {
+        this.tag = '#fish'
+        this.tag_color = 'lightblue'
+        for (var fish in this.fishes) {
+          fishes.push(this.fishes[fish])
+        }
+        return fishes.filter(fish => fish.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
       }
-      return bugs.filter(bug => bug.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
+    tag_color_set() {
+      return {
+        "background-color" : this.tag_color
+      };
+    }
   },
   beforeMount() {
-    this.getData()
+    this.getData();
   },
   name: 'IndexPage'
 }
