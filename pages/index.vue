@@ -77,10 +77,7 @@
      background-image: url('assets/background.jpg');
      background-size: 200vh;
   }
-  .round {
-    position: relative;
-  }
-
+  
   .round label {
     background-color: #fff;
     cursor: pointer;
