@@ -1,4 +1,7 @@
 # ACNH-FIELDGUIDE
+# DEMO
+- Link: https://vimeo.com/671621380
+<img src="/ACNH.gif"/>
 
 ## Inspiration
 The pandemic has forced us to go virtual in nearly every aspect of our lives. Many children have never been to or remember going to a museum or conservatory, and may only know about them through video games and TV. Our goal with the ACNH Field Guide was to create a companion to Animal Crossing that would allow families to easily learn more while playing the game and tracking their progress. With ACNH Field Guide, kids can learn about bugs and fish while collecting them for their in-game museum, nurturing their science education and creating a more in-depth museum experience.
@@ -75,7 +78,4 @@ Example: `/static/robots.txt` is mapped as `/robots.txt`.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
 
-# DEMO
-- Link: https://vimeo.com/671621380
-<img src="/ACNH.gif"/>
 
