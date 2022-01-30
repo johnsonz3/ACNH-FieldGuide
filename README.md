@@ -62,4 +62,7 @@ Example: `/static/robots.txt` is mapped as `/robots.txt`.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
 
+# DEMO
+- Link: https://vimeo.com/671621380
+<img src="/ACNH.gif" width="250" height="500"/>
 
