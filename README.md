@@ -10,7 +10,7 @@ The ACNH Field Guide contains a database of all fish and insects in the video ga
 This project was built with Vue, NuxtJS, TailwindCSS, Firebase and utilized the public Animal Crossing API. 
 
 ## What's Next?
-- We hope to implement image recognition so users are able to track what animals have seen in real life/collected in game
+- We hope to implement image recognition so users are able to look up a physical animal in real life through their phone camera
 - We hope to implement a geo caching feature so users are able to go out to a physical location and collect/see animal crossing animals in real life through the game.
 
 ## Build Setup
