@@ -45,14 +45,16 @@
               <div class="max-w-md mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] hover:shadow-2xl">
                 <img class="w-full" :src="bug.image_uri" alt="Bug">
                 <div class="px-6 py-4">
-                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ bug.name['name-USen'] }}</div>
+                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ bug.name['name-USen'] }}
+                    <button id="button" v-on:click="buttonColor('button')" class="float-right text-sm inline-block rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">Add to Collection</button>
+                  </div>
                   <p class="text-white text-md outline-10">
                     {{ bug['museum-phrase'] }}
                   </p>
                 </div>
                 <div class="px-6 pt-4 pb-2">
                   <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Bug</span>
-                  <span v-if="insectData != []" class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Valid</span>                
+                  <span v-if="insectData != []" class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#Valid</span>
                   <a class="float-right text-white underline hover:text-blue-700" :href="'https://en.wikipedia.org/wiki/' + insectData[bug[`file-name`]]">Click me to Learn more!</a>
                 </div>
               </div>
@@ -70,6 +72,9 @@
      background-image: url('assets/background.jpg');
      background-size: 200vh;
   }
+  button {
+    background-color: #FFFFFF;
+  }
 </style>
 
 <script>
@@ -86,6 +91,7 @@ const firebaseConfig = {
   measurementId: "G-Y9BT2JF35X"
 };
 import {onValue} from "firebase/database";
+let count = 0
 
 
 export default {
@@ -110,6 +116,16 @@ export default {
       onValue(insects, (snapshot) => {
       this.insectData = snapshot.val();
     });
+    },
+    buttonColor: function(btn) {
+      var property = document.getElementById(btn);
+      if (count == 0) {
+          property.style.backgroundColor = "#8a8a8a"
+          count = 1;        
+      } else {
+          property.style.backgroundColor = "#FFFFFF"
+          count = 0;
+      }
     }
   },
   computed: {
