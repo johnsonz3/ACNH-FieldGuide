@@ -44,7 +44,14 @@
               <div class="max-w-md mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] hover:shadow-2xl">
                 <img class="w-full" :src="animal.image_uri" alt="animal">
                 <div class="px-6 py-4">
-                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ animal.name['name-USen'] }}</div>
+                  <div class="font-bold text-xl mb-2 text-white capitalize">{{ animal.name['name-USen'] }}
+                    <div class="circle-container inline-block float-right ">
+                      <div class="round">
+                        <input type="checkbox" v-bind:id="animal.name['name-USen']" />
+                        <label :for="animal.name['name-USen']" class="text-sm inline-block rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">Add to Collection</label>
+                      </div>
+                    </div>
+                  </div>
                   <p class="text-white text-md outline-10">
                     {{ animal['museum-phrase'] }}
                   </p>
@@ -70,6 +77,27 @@
      background-image: url('assets/background.jpg');
      background-size: 200vh;
   }
+  .round {
+    position: relative;
+  }
+
+  .round label {
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  .round input[type="checkbox"] {
+    visibility: hidden;
+  }
+
+  .round input[type="checkbox"]:checked + label {
+    background-color: #8a8a8a;
+  }
+
+  .round input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+  }
+
 </style>
 
 <script>
@@ -86,8 +114,6 @@ const firebaseConfig = {
   measurementId: "G-Y9BT2JF35X"
 };
 import {onValue} from "firebase/database";
-let count = 0
-
 
 export default {
   data() {
