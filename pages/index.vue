@@ -40,7 +40,7 @@
     <!-- End Search Bar -->
     <ul>
       <div class="flex flex-wrap justify-around">
-      <li v-for="bug in resultQuery" :key="bug">
+      <li v-for="(bug, index) in resultQuery" :key="index">
               <!--Card-->
               <div class="max-w-md mb-10 rounded overflow-hidden shadow-lg bg-teal-500/[0.7] hover:shadow-2xl">
                 <img class="w-full" :src="bug.image_uri" alt="Bug">
