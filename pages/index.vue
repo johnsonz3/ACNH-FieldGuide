@@ -86,6 +86,10 @@
   .round input[type="checkbox"] {
     visibility: hidden;
   }
+  
+  .round input[type="checkbox"]:checked + label {
+    background-color: #8a8a8a;
+  }
 </style>
 
 <script>
@@ -176,28 +180,20 @@ export default {
       if(this.toggleAnimal){
         var buggies = Object.values(this.resultQuery);
         for (const bugg in buggies){
-          if(document.getElementById(Object.values(buggies[bugg])[1]).checked){
-              this.bugcount[bugg] = true;
-              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['background-color'] = "gray"; 
-              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['color'] = "white"; 
+          if(document.getElementById(buggies[bugg]['file-name']).checked){
+              this.bugcount[buggies[bugg]['file-name']] = true;
             }else {
-              this.bugcount[bugg] = false;
-              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['background-color'] = "white";
-              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['color'] = "black"; 
+              this.bugcount[buggies[bugg]['file-name']] = false;
             }
           }
       }else {
         var fishies = Object.values(this.resultQuery);
         for (const fishh in fishies){
-          console.log(Object.values(fishies[fishh])[1]);
-          if(document.getElementById(Object.values(fishies[fishh])[1]).checked){
-              this.fishcount[fishh] = true;
-              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['background-color'] = "gray"; 
-              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['color'] = "white"; 
+          if(document.getElementById(fishies[fishh]['file-name']).checked){
+              this.fishcount[fishies[fishh]['file-name']] = true;
             }else {
-              this.fishcount[fishh] = false;
-              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['background-color'] = "white";
-              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['color'] = "black"; 
+              this.fishcount[fishies[fishh]['file-name']] = false;
+              
             }
           }
       }
