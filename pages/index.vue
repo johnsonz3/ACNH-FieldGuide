@@ -47,8 +47,8 @@
                   <div class="font-bold text-xl mb-2 text-white capitalize">{{ animal.name['name-USen'] }}
                     <div class="circle-container inline-block float-right ">
                       <div class="round">
-                        <input type="checkbox" :checked="bugcount[animal['file-name']]" @click="validate(tag)" v-bind:id="animal['file-name']"/>
-                        <label :for="animal['file-name']" class="text-sm inline-block rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">Add to Collection</label>
+                        <input type="checkbox" :checked="toggleAnimal ? bugcount[animal['file-name']] : fishcount[animal['file-name']]" @click="validate()" v-bind:id="animal['file-name']"/>
+                        <label  :for="animal['file-name']" class="text-sm inline-block rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">Add to Collection</label>
                       </div>
                     </div>
                   </div>
@@ -86,11 +86,6 @@
   .round input[type="checkbox"] {
     visibility: hidden;
   }
-
-  .round input[type="checkbox"]:checked + label {
-    background-color: #8a8a8a;
-  }
-
 </style>
 
 <script>
@@ -158,9 +153,10 @@ export default {
       this.fishData = snapshot.val();
     });
     },
-    getOccurrence(animal) {
+    getOccurrence() {
         var count = 0;
-        if(animal == "bug"){
+        
+        if(this.toggleAnimal){
            for(const thing in this.bugcount){
             if(this.bugcount[thing]){
               count = count + 1;
@@ -176,21 +172,32 @@ export default {
         
         return count;
     },
-    validate(s){
-      if(s=="#bug"){
-        for (const bug in this.bugs){
-          if(document.getElementById(bug).checked){
-              this.bugcount[bug] = true;
+    validate(){
+      if(this.toggleAnimal){
+        var buggies = Object.values(this.resultQuery);
+        for (const bugg in buggies){
+          if(document.getElementById(Object.values(buggies[bugg])[1]).checked){
+              this.bugcount[bugg] = true;
+              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['background-color'] = "gray"; 
+              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['color'] = "white"; 
             }else {
-              this.bugcount[bug] = false;
+              this.bugcount[bugg] = false;
+              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['background-color'] = "white";
+              document.getElementById(Object.values(buggies[bugg])[1]).nextElementSibling.style['color'] = "black"; 
             }
           }
       }else {
-        for (const fish in this.fishes){
-          if(document.getElementById(fish).checked){
-              this.fishcount[fish] = true;
+        var fishies = Object.values(this.resultQuery);
+        for (const fishh in fishies){
+          console.log(Object.values(fishies[fishh])[1]);
+          if(document.getElementById(Object.values(fishies[fishh])[1]).checked){
+              this.fishcount[fishh] = true;
+              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['background-color'] = "gray"; 
+              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['color'] = "white"; 
             }else {
-              this.fishcount[fish] = false;
+              this.fishcount[fishh] = false;
+              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['background-color'] = "white";
+              document.getElementById(Object.values(fishies[fishh])[1]).nextElementSibling.style['color'] = "black"; 
             }
           }
       }
@@ -199,16 +206,15 @@ export default {
         } else {
           this.fishc =  this.getOccurrence("fish");
         }
-     
     },
     handleResize() {
-      this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight;
+        this.window.width = window.innerWidth;
+        this.window.height = window.innerHeight;
 
-      if(window.innerWidth >= 1024) {
-        this.isOpen = true;
+        if(window.innerWidth >= 1024) {
+          this.isOpen = true;
+        }
       }
-    }
     },
   computed: {
     resultQuery: function() {
@@ -220,6 +226,7 @@ export default {
         for (var bug in this.bugs) {
           bugs.push(this.bugs[bug])
         }
+        this.data_bugs = bugs;
         return bugs.filter(bug => bug.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
       }else {
         this.tag = '#fish'
@@ -227,6 +234,7 @@ export default {
         for (var fish in this.fishes) {
           fishes.push(this.fishes[fish])
         }
+        this.data_fishes = fishes;
         return fishes.filter(fish => fish.name['name-USen'].toLowerCase().includes(this.searchQuery.toLowerCase()));
       }
     },
