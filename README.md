@@ -64,5 +64,5 @@ More information about the usage of this directory in [the documentation](https:
 
 # DEMO
 - Link: https://vimeo.com/671621380
-<img src="/ACNH.gif" width="250" height="500"/>
+<img src="/ACNH.gif"/>
 
