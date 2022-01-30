@@ -86,6 +86,7 @@ const firebaseConfig = {
   measurementId: "G-Y9BT2JF35X"
 };
 import {onValue} from "firebase/database";
+let count = 0
 
 
 export default {
