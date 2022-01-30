@@ -7,7 +7,7 @@ The pandemic has forced us to go virtual in nearly every aspect of our lives. Ma
 The ACNH Field Guide contains a database of all fish and insects in the video game Animal Crossing: New Horizons. Each entry contains information regarding the creature and links to external websites to learn more about them. Users can search the list for creatures they've caught and add them to their collection, so they can keep track of what they already have, and what they still need to catch.
 
 ## How we built it
-This project was built with Vue, NuxtJS, TailwindCSS, and Firebase.
+This project was built with Vue, NuxtJS, TailwindCSS, Firebase and utilized the public Animal Crossing API. 
 
 ## Build Setup
 
