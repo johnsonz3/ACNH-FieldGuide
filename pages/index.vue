@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
+    <nav class="fixed w-full top-0 flex items-center justify-between flex-wrap bg-teal-500 p-6">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
       <img class="fill-current h-9 w-8 mr-2" src="../assets/tom_nook.png"> 
       <span class="font-semibold text-xl tracking-tight">Animal Crossing Field Guide</span>
@@ -16,17 +16,17 @@
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div :class="isOpen ? 'block' : 'hidden'" class="text-md lg:flex-grow">
         <a id="bug-link" href="#responsive-header" @click="toggleAnimal=true" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-          Bugs
+          Bugs  <span class="inline-flex font-bold text-black rounded-full bg-yellow-200 flex items-center justify-center font-mono ml-2" style="height: 20px; width: 20px; font-size: 14px;">{{ bugc }}</span>
         </a>
         <a id="fish-link" href="#responsive-header" @click="toggleAnimal=false" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-          Fish
+          Fish <span class="inline-flex font-bold text-black rounded-full bg-blue-200 flex items-center justify-center font-mono ml-2" style="height: 20px; width: 20px; font-size: 14px;">{{ fishc }}</span>
         </a>
       </div>
     </div>
   </nav>
   <p v-if="$fetchState.pending">Fetching Animals...</p>
   <p v-else-if="$fetchState.error">An error occurred :(</p>
-  <div v-else class="container my-12 mx-auto px-4 lg:px-12">
+  <div v-else style="margin-top: 10rem;" class="container my-12 mx-auto px-4 lg:px-12">
     <!-- Search Bar -->
     <div class="flex items-center justify-center m-10">
       <div class="flex border-2 border-teal-500 rounded">
@@ -47,8 +47,8 @@
                   <div class="font-bold text-xl mb-2 text-white capitalize">{{ animal.name['name-USen'] }}
                     <div class="circle-container inline-block float-right ">
                       <div class="round">
-                        <input type="checkbox" v-bind:id="animal.name['name-USen']" />
-                        <label :for="animal.name['name-USen']" class="text-sm inline-block rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">Add to Collection</label>
+                        <input type="checkbox" :checked="bugcount[animal['file-name']]" @click="validate(tag)" v-bind:id="animal['file-name']"/>
+                        <label :for="animal['file-name']" class="text-sm inline-block rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">Add to Collection</label>
                       </div>
                     </div>
                   </div>
@@ -94,10 +94,6 @@
     background-color: #8a8a8a;
   }
 
-  .round input[type="checkbox"]:checked + label:after {
-    opacity: 1;
-  }
-
 </style>
 
 <script>
@@ -114,12 +110,10 @@ const firebaseConfig = {
   measurementId: "G-Y9BT2JF35X"
 };
 import {onValue} from "firebase/database";
-
 export default {
   data() {
     return {
       isOpen : true,
-      animal : [],
       bugs : [],
       fishes: [],
       searchQuery: "",
@@ -131,7 +125,11 @@ export default {
       window: {
             width: 0,
             height: 0
-        }
+        },
+      fishcount: [],
+      bugcount: [],
+      bugc: 0,
+      fishc: 0
     }
   },
   async fetch() {
@@ -162,6 +160,49 @@ export default {
       onValue(fish, (snapshot) => {
       this.fishData = snapshot.val();
     });
+    },
+    getOccurrence(animal) {
+        var count = 0;
+        if(animal == "bug"){
+           for(const thing in this.bugcount){
+            if(this.bugcount[thing]){
+              count = count + 1;
+            } 
+        }
+        }else {
+          for(const thing in this.fishcount){
+              if(this.fishcount[thing]){
+                count = count+1;
+              }
+        }
+        }
+        
+        return count;
+    },
+    validate(s){
+      if(s=="#bug"){
+        for (const bug in this.bugs){
+          if(document.getElementById(bug).checked){
+              this.bugcount[bug] = true;
+            }else {
+              this.bugcount[bug] = false;
+            }
+          }
+      }else {
+        for (const fish in this.fishes){
+          if(document.getElementById(fish).checked){
+              this.fishcount[fish] = true;
+            }else {
+              this.fishcount[fish] = false;
+            }
+          }
+      }
+      if(this.tag == '#bug') {
+          this.bugc = this.getOccurrence("bug");
+        } else {
+          this.fishc =  this.getOccurrence("fish");
+        }
+     
     },
     handleResize() {
       this.window.width = window.innerWidth;
