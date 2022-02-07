@@ -2,8 +2,9 @@
   <div class="app">
     <nav class="fixed w-full top-0 flex items-center justify-between flex-wrap bg-teal-500 p-6">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
-      <img class="fill-current h-9 w-8 mr-2" src="../assets/tom_nook.png"> 
-      <span class="font-semibold text-xl tracking-tight">Animal Crossing Field Guide</span>
+        <a href="/"> <img class="fill-current h-9 w-8 mr-2" src="../assets/tom_nook.png"></a>
+        <a href="/"> <span class="font-semibold text-xl tracking-tight">Animal Crossing Field Guide</span></a>
+
     </div>
     <div class="block lg:hidden">
       <button @click="isOpen = !isOpen" class="flex items-center px-3 py-2 border rounded border-none text-teal-200 border-teal-400 hover:text-white hover:border-white">
@@ -15,10 +16,10 @@
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div :class="isOpen ? 'block' : 'hidden'" class="text-md lg:flex-grow">
-        <a id="bug-link" href="#responsive-header" @click="toggleAnimal=true" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+        <a id="bug-link" href="#bugs" @click="toggleAnimal=true" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
           Bugs  <span class="inline-flex font-bold text-black rounded-full bg-yellow-200 flex items-center justify-center font-mono ml-2" style="height: 20px; width: 20px; font-size: 14px;">{{ bugc }}</span>
         </a>
-        <a id="fish-link" href="#responsive-header" @click="toggleAnimal=false" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+        <a id="fish-link" href="#fish" @click="toggleAnimal=false" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
           Fish <span class="inline-flex font-bold text-black rounded-full bg-blue-200 flex items-center justify-center font-mono ml-2" style="height: 20px; width: 20px; font-size: 14px;">{{ fishc }}</span>
         </a>
       </div>
