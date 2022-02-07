@@ -1,4 +1,19 @@
 # ACNH-FIELDGUIDE
+# DEMO
+<a href="https://vimeo.com/671621380"> <img src="/ACNH.gif"/> </a>
+
+## Inspiration
+The pandemic has forced us to go virtual in nearly every aspect of our lives. Many children have never been to or remember going to a museum or conservatory, and may only know about them through video games and TV. Our goal with the ACNH Field Guide was to create a companion to Animal Crossing that would allow families to easily learn more while playing the game and tracking their progress. With ACNH Field Guide, kids can learn about bugs and fish while collecting them for their in-game museum, nurturing their science education and creating a more in-depth museum experience.
+
+## What it does
+The ACNH Field Guide contains a database of all fish and insects in the video game Animal Crossing: New Horizons. Each entry contains information regarding the creature and links to external websites to learn more about them. Users can search the list for creatures they've caught and add them to their collection, so they can keep track of what they already have, and what they still need to catch.
+
+## How we built it
+This project was built with Vue, NuxtJS, TailwindCSS, Firebase and utilized the public Animal Crossing API. 
+
+## What's Next?
+- We hope to implement image recognition so users are able to look up a physical animal in real life through their phone camera
+- We hope to implement a geo caching feature so users are able to go out to a physical location and collect/see animal crossing animals in real life through the game.
 
 ## Build Setup
 
